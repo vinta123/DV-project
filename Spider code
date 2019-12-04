@@ -1,29 +1,38 @@
 import pandas as pd
 import numpy as np
 
+#read file
 df= pd.read_csv('ks-projects-201801.csv')
+
+#division data by project state
+canceled= df[df['state'] == 'canceled']
+failed = df[df.state == 'failed']
+successful = df[df.state == 'successful']
+suspended = df[df.state == 'suspended']
+live = df[df.state == 'live']
+undefined = df[df.state == 'undefined']
+
+############## to do ############
+#cut live, undefined as non-important small data
+#can work with suspended projects separately too 
+#divide projects by year - 2008 - 2018 - create graph to see num grow
+#
+
+#analyse successful projects
+print (successful.country.describe())
+print (successful.main_category.unique())
 
 #difference between project goal sum and actual result
 df['difference'] = df.usd_pledged_real - df.usd_goal_real
 
 #division based on difference
 very_big = df[df.difference >= 1000000 ]
-#big = df[ df.difference < 1000000 | df.difference >=100000]
-#mid = df[ 100000 > df.difference >= 0]
+#big = df[ (df.difference < 1000000) | (df.difference >=100000)]
+#middle = df[ 100000 > df.difference >= 0]
+#no diff or small - do we need it
+
 plus = df[df.difference >= 0]
 minus = df[df.difference < 0]
 
-#division by project state
-canceled= df[df['state'] == 'canceled']
-failed = df[df.state == 'failed']
-successful = df[df.state == 'successful']
-live = df[df.state == 'live']
-undefined = df[df.state == 'undefined']
-suspended = df[df.state == 'suspended']
-
-#analyse successful projects
-print (successful.country.describe())
-print (successful.main_category.unique())
-
-#analyse very_big
+#analyse very_big diff 
 print (very_big.main_category.describe())
